@@ -1,0 +1,31 @@
+{
+  "name": "simple-web-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "../web/dist/index.js",
+  "scripts": {
+    "test": "npx playwright test tests",
+    "build": "npx webpack --config webpack.config.js",
+    "start": "npx ts-node src/server.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com//saratoga8/fullstack_automation.git"
+  },
+  "private": true,
+
+  "dependencies": {
+    "axios": "^1.7.3",
+    "express": "^4.19.2",
+    "typescript": "^5.5.4",
+    "@types/express": "^4.17.21",
+    "ts-node": "^10.9.2",
+    "@types/node": "^22.1.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.46.0",
+    "webpack": "^5.93.0",
+    "webpack-cli": "^5.1.4",
+    "ts-loader": "^9.5.1"
+  }
+}
