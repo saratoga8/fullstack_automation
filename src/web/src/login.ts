@@ -10,7 +10,7 @@ const submitLogin = async () => {
     }
 
     try {
-        const response = await axios.get('http://localhost:3000/user', {
+        const response = await axios.get('http://localhost:4000/user', {
             params: {
                 username: username,
                 password: password,
@@ -19,9 +19,9 @@ const submitLogin = async () => {
 
         if (response.status === axios.HttpStatusCode.Ok) {
             (document.getElementById('warning') as HTMLElement).hidden = true
-            window.location.href = `http://localhost:3000/welcome/${username}`;
-        }
-        else {
+            window.localStorage.setItem('userName', username);
+            window.location.href = `/welcome`;
+        } else {
             (document.getElementById('warning') as HTMLElement).hidden = false
             console.debug(`Request failed with status ${response.status}`);
         }
@@ -31,12 +31,10 @@ const submitLogin = async () => {
             if (status === axios.HttpStatusCode.NotFound) {
                 (document.getElementById('warning') as HTMLElement).hidden = false
             }
-        }
-        else {
+        } else {
             console.error(`Error while trying to login with username ${username}: ${error}`);
         }
     }
 };
 
-// Expose the function to the global scope so it can be called from the HTML
 (window as any).submitLogin = submitLogin;

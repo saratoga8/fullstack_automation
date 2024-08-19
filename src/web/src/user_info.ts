@@ -1,26 +1,26 @@
 import axios from 'axios';
 
-async function fetchUserInfo(userName: string): Promise<any> {
-    try {
-        const response = await axios.get('http://localhost:4000/user_info', {
-            params: {
-                username: userName
-            },
-        });
-
+const buildElementTxt = async () => {
+    const userName = window.localStorage.getItem('userName')
+    if (userName) {
+        const params = {username: userName}
+        const url = 'http://localhost:4000/user_info'
+        const response = await axios.get(url, {params});
         if (response.status === axios.HttpStatusCode.Ok) {
-            const userInfo = await response.data.json();
-            const { first_name, last_name } = userInfo;
+            return `Welcome ${response.data.first_name} ${response.data.last_name}`;
+        } else {
+            return `Can not get information about the user '${userName}'`;
+        }
+    }
+    return 'Can not get information about the user: User not defined';
+}
 
-            return `Welcome ${first_name} ${last_name}`;
-        }
-        else {
-            throw new Error('Network response was not ok');
-        }
+export const fetchUserInfo = async (): Promise<void> => {
+    try {
+        (document.getElementById('welcome-message') as HTMLElement).innerText = await buildElementTxt();
     } catch (error) {
         console.error('Error fetching user information:', error);
     }
 }
 
-// Call the function to fetch and display user information
-(window as any).fetchUserInfo = fetchUserInfo
+(window as any).onload = fetchUserInfo;

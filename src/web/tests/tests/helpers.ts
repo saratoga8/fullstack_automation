@@ -1,16 +1,11 @@
 import {Page} from "@playwright/test";
 
-export const mockUserNotFound = async () => {
-
-}
-
-export const mockUserInfo = async (
-    page: Page,
-    url: string,
-    method: 'GET',
-    expectedApiResponse: object,
-    status = 200
-)=> {
+const mockRequest = async (page: Page,
+                           url: string,
+                           expectedApiResponse: object,
+                           status = 200,
+                           method = 'GET'
+) => {
     await page.route(url, async (route) => {
         if (route.request().method() === method) {
             await route.fulfill({
@@ -27,20 +22,22 @@ export const mockUserInfo = async (
 export const mockUserExistance = async (
     page: Page,
     url: string,
-    method: 'GET',
-    expectedApiResponse: object,
-    status = 200
 ) => {
-    await page.route(url, async (route) => {
-        if (route.request().method() === method) {
-            await route.fulfill({
-                status: status,
-                contentType: 'application/json',
-                body: JSON.stringify(expectedApiResponse),
-            });
-        } else {
-            await route.continue();
-        }
-    });
+    await mockRequest(page, url, {})
 }
 
+export const mockUserInfo = async (
+    page: Page,
+    url: string,
+    expectedApiResponse: object,
+) => {
+    await mockRequest(page, url, expectedApiResponse)
+}
+
+
+export const mockUserNotFound = async (
+    page: Page,
+    url: string
+) => {
+    await mockRequest(page, url, {}, 404)
+}

@@ -1,7 +1,7 @@
 import {PageAbstract} from "./PageAbstract";
-import {Page} from "@playwright/test";
+import {expect, Page} from "@playwright/test";
 
-type UserInfo = { firstName: string, lastName: string };
+type UserInfo = { first_name: string, last_name: string };
 
 export class WelcomePage extends PageAbstract {
     constructor(userName: string, page: Page) {
@@ -9,6 +9,14 @@ export class WelcomePage extends PageAbstract {
     }
 
     async userInfo(): Promise<UserInfo> {
-        return { firstName: '', lastName: ''};
+        const locator = this.page.locator('#welcome-message')
+        const txt = await locator.textContent() ?? ""
+        expect(txt, 'The text of user info not found').toBeTruthy()
+
+        const infoTxt = txt.split('Welcome ')[1] ?? ""
+        return {
+            first_name: infoTxt.split(' ')[0] ?? "",
+            last_name: infoTxt.split(' ')[1] ?? ""
+        }
     }
 }

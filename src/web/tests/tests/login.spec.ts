@@ -4,11 +4,11 @@ import {WelcomePage} from "../infra/page-objects/WelcomePage";
 import {mockUserExistance, mockUserInfo, mockUserNotFound} from "./helpers";
 
 test.describe("Login", () => {
-    const credentials = { username: "test", password: "test" };
+    const credentials = {username: "test", password: "test"};
 
     test("user should login with valid credentials", async ({page}) => {
-        const apiRequestUrl = `http://localhost:3000/user?username=${credentials.username}&password=${credentials.password}`
-        await mockUserExistance(page, apiRequestUrl, 'GET', {})
+        const apiRequestUrl = `http://localhost:4000/user?username=${credentials.username}&password=${credentials.password}`
+        await mockUserExistance(page, apiRequestUrl)
         const loginPage = await new LoginPage(page).open()
 
         await loginPage.login(credentials)
@@ -18,7 +18,8 @@ test.describe("Login", () => {
     })
 
     test("user should NOT login with invalid credentials", async ({page}) => {
-        await mockUserNotFound()
+        const apiRequestUrl = `http://localhost:4000/user?username=${credentials.username}&password=${credentials.password}`
+        await mockUserNotFound(page, apiRequestUrl)
         const loginPage = await new LoginPage(page).open()
 
         await loginPage.login(credentials)
@@ -28,12 +29,12 @@ test.describe("Login", () => {
     })
 
     test("should show a correct user info", async ({page}) => {
-        let apiRequestUrl = `http://localhost:3000/user?username=${credentials.username}&password=${credentials.password}`
-        await mockUserExistance(page, apiRequestUrl, 'GET', {})
+        let apiRequestUrl = `http://localhost:4000/user?username=${credentials.username}&password=${credentials.password}`
+        await mockUserExistance(page, apiRequestUrl)
 
-        apiRequestUrl = `http://localhost:3000/user_info?username=${credentials.username}`
-        const userInfo = { firstName: 'John', lastName: 'Smith' }
-        await mockUserInfo(page, apiRequestUrl, 'GET', userInfo)
+        apiRequestUrl = `http://localhost:4000/user_info?username=${credentials.username}`
+        const userInfo = {first_name: 'John', last_name: 'Smith'}
+        await mockUserInfo(page, apiRequestUrl, userInfo)
         const loginPage = await new LoginPage(page).open()
 
         await loginPage.login(credentials)
