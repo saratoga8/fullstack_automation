@@ -19,25 +19,18 @@ const mockRequest = async (page: Page,
     });
 }
 
-export const mockUserExistance = async (
-    page: Page,
-    url: string,
-) => {
+export const mockUserExistance = async (page: Page, url: string) => {
     await mockRequest(page, url, {})
 }
 
-export const mockUserInfo = async (
-    page: Page,
-    url: string,
-    expectedApiResponse: object,
-) => {
+export const mockUserInfo = async (page: Page, url: string, expectedApiResponse: object) => {
     await mockRequest(page, url, expectedApiResponse)
 }
 
-
-export const mockUserNotFound = async (
-    page: Page,
-    url: string
-) => {
+export const mockUserNotFound = async (page: Page, url: string) => {
     await mockRequest(page, url, {}, 404)
+}
+
+export const mockServerError = async (page: Page, url: string) => {
+    await mockRequest(page, url, {}, 500)
 }

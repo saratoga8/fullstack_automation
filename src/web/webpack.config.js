@@ -1,4 +1,6 @@
 const path = require('path');
+const webpack = require('webpack');
+require('dotenv').config();
 
 module.exports = {
     entry: ['./src/index.ts', './src/welcome.ts'],
@@ -15,6 +17,14 @@ module.exports = {
             },
         ],
     },
+    plugins: [
+        new webpack.DefinePlugin({
+            'process.env': {
+                'WEB_APP_PORT': JSON.stringify(process.env.WEB_APP_PORT),
+                'API_URL': JSON.stringify(process.env.API_URL)
+            }
+        })
+    ],
     resolve: {
         extensions: ['.ts', '.js'],
     },

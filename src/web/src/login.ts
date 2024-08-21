@@ -1,39 +1,43 @@
 import axios from 'axios';
 
+const url: string = `${process.env.API_URL}/user`;
+
+type elementId = 'warning' | 'error'
+
+const doesUserExist = async (username: string, password: string) => {
+    if (username && password) {
+        const response = await axios.get(url, {params: {username, password}});
+        if (response.status === axios.HttpStatusCode.Ok) {
+            return true
+        }
+        if (response.status === axios.HttpStatusCode.NotFound) {
+            return false;
+        }
+        throw new Error('Invalid status code: ' + response.status);
+    }
+}
+
+const setElementHidden = (element: elementId, hidden: boolean) => {
+    (document.getElementById(element) as HTMLElement).hidden = hidden
+}
+
 const submitLogin = async () => {
     const username = (document.getElementById('username') as HTMLInputElement).value;
     const password = (document.getElementById('password') as HTMLInputElement).value;
 
-    if (username === '' || password === '') {
-        (document.getElementById('warning') as HTMLElement).hidden = false
-        return;
-    }
+    setElementHidden('warning', true)
+    setElementHidden('error', true)
 
     try {
-        const response = await axios.get('http://localhost:4000/user', {
-            params: {
-                username: username,
-                password: password,
-            },
-        });
-
-        if (response.status === axios.HttpStatusCode.Ok) {
-            (document.getElementById('warning') as HTMLElement).hidden = true
+        if (await doesUserExist(username, password)) {
             window.localStorage.setItem('userName', username);
             window.location.href = `/welcome`;
         } else {
-            (document.getElementById('warning') as HTMLElement).hidden = false
-            console.debug(`Request failed with status ${response.status}`);
+            setElementHidden('warning', false)
         }
     } catch (error) {
-        if (axios.isAxiosError(error)) {
-            const status = error.response && error.response.status;
-            if (status === axios.HttpStatusCode.NotFound) {
-                (document.getElementById('warning') as HTMLElement).hidden = false
-            }
-        } else {
-            console.error(`Error while trying to login with username ${username}: ${error}`);
-        }
+        setElementHidden('error', false)
+        console.error(`Error while trying to login with username ${username}: ${error}`);
     }
 };
 

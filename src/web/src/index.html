@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <title>Login Page</title>
     <style>
         body {
@@ -14,6 +14,7 @@
             height: 100vh;
             margin: 0;
         }
+
         .login-container {
             background-color: white;
             padding: 20px;
@@ -21,10 +22,12 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             width: 300px;
         }
+
         .login-container h2 {
             text-align: center;
             margin-bottom: 20px;
         }
+
         .login-container input[type="text"],
         .login-container input[type="password"] {
             width: 100%;
@@ -33,6 +36,7 @@
             border: 1px solid #ccc;
             border-radius: 4px;
         }
+
         .login-container button {
             width: 100%;
             padding: 10px;
@@ -43,9 +47,11 @@
             cursor: pointer;
             font-size: 16px;
         }
+
         .login-container button:hover {
             background-color: #45a049;
         }
+
         .login-container p {
             color: red;
         }
@@ -56,14 +62,15 @@
     <h2>Login</h2>
     <form id="loginForm">
         <label for="username">Username</label>
-        <input type="text" id="username" name="username" required>
+        <input id="username" name="username" required type="text">
 
         <label for="password">Password</label>
-        <input type="password" id="password" name="password" required>
+        <input id="password" name="password" required type="password">
 
-        <button type="button" onclick="submitLogin()" id="submit">Login</button>
+        <button id="submit" onclick="submitLogin()" type="button">Login</button>
     </form>
     <p hidden="hidden" id="warning">Invalid username or password</p>
+    <p hidden="hidden" id="error">Server Error</p>
 </div>
 
 <script src="bundle.js"></script>

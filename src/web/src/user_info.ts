@@ -1,18 +1,32 @@
 import axios from 'axios';
 
+type UserInfo = { firstName: string; lastName: string };
+
+const url: string = `${process.env.API_URL}/user_info`;
+
+const getUserInfo = async (userName: string): Promise<UserInfo | null> => {
+    const params = {username: userName}
+    const response = await axios.get(url, {params});
+    try {
+        if (response.status === axios.HttpStatusCode.Ok) {
+            return {firstName: response.data.first_name, lastName: response.data.last_name};
+        } else {
+            console.error(`Error while requesting user info: Status ${response.status}: ${response.statusText}`);
+        }
+    } catch (error) {
+        console.error(`Error while trying to login with username ${userName}: ${error}`);
+    }
+    return null;
+}
+
 const buildElementTxt = async () => {
     const userName = window.localStorage.getItem('userName')
     if (userName) {
-        const params = {username: userName}
-        const url = 'http://localhost:4000/user_info'
-        const response = await axios.get(url, {params});
-        if (response.status === axios.HttpStatusCode.Ok) {
-            return `Welcome ${response.data.first_name} ${response.data.last_name}`;
-        } else {
-            return `Can not get information about the user '${userName}'`;
-        }
+        const userInfo = await getUserInfo(userName)
+        const errTxt = `Can not get information about the user '${userName}'`
+        return (userInfo) ? `Welcome ${userInfo.firstName} ${userInfo.lastName}` : errTxt
     }
-    return 'Can not get information about the user: User not defined';
+    return 'Cannot get information about the user: User not defined';
 }
 
 export const fetchUserInfo = async (): Promise<void> => {

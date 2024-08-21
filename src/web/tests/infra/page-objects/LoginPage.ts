@@ -19,8 +19,12 @@ export class LoginPage extends PageAbstract {
         await new Button(locatorBtn, 'Login').click()
     }
 
-    async shownWarning(): Promise<boolean> {
-        const locator = this.page.locator('#warning')
+    shownWarning = async (): Promise<boolean> => this.isElementVisible('warning')
+
+    shownError = async (): Promise<boolean> => this.isElementVisible('error')
+
+    private async isElementVisible(id: string): Promise<boolean> {
+        const locator = this.page.locator(`#${id}`)
         return await locator.isVisible()
     }
 }
