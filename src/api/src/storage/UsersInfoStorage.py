@@ -1,17 +1,17 @@
-type UserInfo = {"name": str, "password": str, "first_name": str, "last_name": str}
+type UserInfoType = {"name": str, "password": str, "first_name": str, "last_name": str}
 
 
 class UsersInfoStorage:
     def __init__(self):
-        self._storage: dict[str, UserInfo] = {}
+        self._storage: dict[str, UserInfoType] = {}
 
-    def get_info(self, user_name: str) -> UserInfo:
+    def get_info(self, user_name: str) -> UserInfoType | None:
         if user_name:
             return self._storage.get(user_name, None)
         else:
             raise ValueError(f"Invalid user name '{user_name}'")
 
-    def add_info(self, info: UserInfo):
+    def add_info(self, info: UserInfoType):
         user_name = info["name"]
         if not self._storage.get(user_name):
             err = self._check_info(info)
@@ -23,7 +23,7 @@ class UsersInfoStorage:
             raise ValueError(f"User name '{user_name}' already exists")
 
     @staticmethod
-    def _check_info(info: UserInfo) -> str:
+    def _check_info(info: UserInfoType) -> str:
         for key in dict(info).keys():
             if not info[key]:
                 return f"Invalid value of {key}"

@@ -9,7 +9,10 @@ def create_app():
     app = falcon.asgi.App()
 
     storage = UsersInfoStorage()
-    app.add_route("/user", UserOperations(storage))
-    app.add_route("/user_info", UserInfo(storage))
+    usr_ops = UserOperations(storage)
+    usr_info = UserInfo(storage)
+    app.add_route("/user", usr_ops)
+    app.add_route("/user_info/{name}", usr_info)
+    app.add_route("/user/{name}", usr_ops)
 
     return app
