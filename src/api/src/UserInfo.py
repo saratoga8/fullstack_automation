@@ -1,6 +1,7 @@
 from falcon import Request, Response, HTTP_200, HTTP_500, HTTP_404
 
-from .storage.UsersInfoStorage import UsersInfoStorage, UserInfoType
+from .storage.UsersInfoStorage import UsersInfoStorage
+from ..tests.functional.utils.errors import update_error_response
 
 
 class UserInfo:
@@ -9,14 +10,11 @@ class UserInfo:
 
     async def on_get(self, req: Request, resp: Response, name: str):
         try:
-            info: UserInfoType | None = self._storage.get_info(name)
-            if info:
+            if info := self._storage.get_info(name):
                 resp.status = HTTP_200
-                resp.text = str(info).replace("'", '"')
+                resp.text = str(info)
                 resp.content_type = "application/json"
             else:
                 resp.status = HTTP_404
-        except Exception as e:
-            print(e)
-            resp.data = b'{"error": e}'
-            resp.status = HTTP_500
+        except ValueError as e:
+            update_error_response(e, HTTP_500, resp)
