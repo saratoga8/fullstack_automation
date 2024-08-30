@@ -3,7 +3,7 @@ import pytest
 from falcon.testing import TestClient
 
 from src.api.src.app import create_app
-from src.api.src.storage.UsersInfoStorage import UserInfoType
+from src.api.src.storage.UserInfoType import UserInfoType
 
 
 @pytest.fixture
