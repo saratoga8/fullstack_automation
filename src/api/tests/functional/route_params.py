@@ -4,7 +4,7 @@ from falcon.testing import TestClient
 from hamcrest import assert_that, equal_to
 from requests import codes
 
-from src.api.src.storage.UsersInfoStorage import UserInfoType
+from src.api.src.storage.UsersInfoStorageInMemory import UserInfoType
 from src.api.tests.constants import USR_URL
 
 

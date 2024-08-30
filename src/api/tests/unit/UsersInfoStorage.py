@@ -1,18 +1,21 @@
 import pytest
 from hamcrest import assert_that, equal_to
 
-from src.api.src.storage.UsersInfoStorage import UsersInfoStorage, UserInfoType
+from src.api.src.storage.UsersInfoStorageInMemory import (
+    UsersInfoStorageInMemory,
+    UserInfoType,
+)
 
 
 class TestUsersInfoStorage:
     def test_get_info(self, user_info: UserInfoType):
-        storage = UsersInfoStorage(user_info)
+        storage = UsersInfoStorageInMemory(user_info)
         expected_user_info = storage.get_info(user_info.name)
 
         assert_that(expected_user_info, equal_to(user_info), "Invalid user info")
 
     def test_get_info_after_delete(self, user_info: UserInfoType):
-        storage = UsersInfoStorage(user_info)
+        storage = UsersInfoStorageInMemory(user_info)
         user_name = user_info.name
 
         storage.delete(user_name)
@@ -21,7 +24,7 @@ class TestUsersInfoStorage:
         assert_that(expected_user_info, equal_to(None), "Invalid user info")
 
     def test_get_invalid_info(self):
-        storage = UsersInfoStorage()
+        storage = UsersInfoStorageInMemory()
         try:
             storage.get_info("")
         except ValueError:
@@ -30,7 +33,7 @@ class TestUsersInfoStorage:
         pytest.fail("Should return an error")
 
     def test_get_non_exist_info(self):
-        storage = UsersInfoStorage()
+        storage = UsersInfoStorageInMemory()
         expected_user_info = storage.get_info("bla")
 
         assert_that(expected_user_info, equal_to(None), "Invalid user info")
@@ -38,7 +41,7 @@ class TestUsersInfoStorage:
     def test_add_info(self, user_info: UserInfoType):
         user_name = user_info.name
 
-        storage = UsersInfoStorage()
+        storage = UsersInfoStorageInMemory()
         storage.add_info(user_info)
         actual_user_info = storage.get_info(user_name)
 
@@ -48,14 +51,14 @@ class TestUsersInfoStorage:
         user_info.last_name = ""
 
         try:
-            UsersInfoStorage.add_info(user_info)
+            UsersInfoStorageInMemory.add_info(user_info)
         except TypeError:
             return
 
         pytest.fail("Should return an error")
 
     def test_add_info_twice(self, user_info: UserInfoType):
-        storage = UsersInfoStorage(user_info)
+        storage = UsersInfoStorageInMemory(user_info)
 
         try:
             storage.add_info(user_info)
@@ -65,7 +68,7 @@ class TestUsersInfoStorage:
         pytest.fail("Should return an error")
 
     def test_delete(self, user_info: UserInfoType):
-        storage = UsersInfoStorage(user_info)
+        storage = UsersInfoStorageInMemory(user_info)
         user_name = user_info.name
 
         storage.delete(user_name)
@@ -74,14 +77,14 @@ class TestUsersInfoStorage:
 
     def test_delete_non_exist(self):
         try:
-            UsersInfoStorage().delete("bla")
+            UsersInfoStorageInMemory().delete("bla")
         except ValueError:
             return
 
         pytest.fail("Should return an error")
 
     def test_delete_twice(self, user_info: UserInfoType):
-        storage = UsersInfoStorage(user_info)
+        storage = UsersInfoStorageInMemory(user_info)
         user_name = user_info.name
 
         try:
@@ -94,7 +97,7 @@ class TestUsersInfoStorage:
 
     def test_delete_invalid_name(self):
         try:
-            UsersInfoStorage().delete("")
+            UsersInfoStorageInMemory().delete("")
         except ValueError:
             return
 

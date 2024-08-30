@@ -1,6 +1,6 @@
 from falcon import Request, Response, HTTP_200, HTTP_500, HTTP_404
 
-from .storage.UsersInfoStorage import UsersInfoStorage
+from .storage import UsersInfoStorage
 from ..tests.functional.utils.errors import update_error_response
 
 
