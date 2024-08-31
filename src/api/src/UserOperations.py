@@ -15,7 +15,7 @@ from falcon import (
     HTTP_400,
 )
 
-from src.api.src.errors import update_error_response
+from src.utils.errors import update_error_response
 from .storage import UsersInfoStorage
 from .storage.UsersInfoStorageInMemory import UserInfoType
 

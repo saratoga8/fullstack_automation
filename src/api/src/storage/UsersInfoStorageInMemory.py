@@ -1,5 +1,5 @@
-from src.api.src.storage.UserInfoType import UserInfoType
-from src.api.src.storage.UsersInfoStorage import UsersInfoStorage
+from src.storage.UserInfoType import UserInfoType
+from src.storage.UsersInfoStorage import UsersInfoStorage
 
 
 class UsersInfoStorageInMemory(UsersInfoStorage):

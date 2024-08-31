@@ -1,13 +1,12 @@
 from json import loads
 
 from hamcrest import assert_that, equal_to
+from requests import codes
 
-from src.api.src.storage.UsersInfoStorageInMemory import UserInfoType
-from src.api.tests.constants import USR_INFO_URL
+from src.storage.UserInfoType import UserInfoType
+from tests.constants import USR_INFO_URL
 
-METHOD_PATH = (
-    "src.api.src.storage.UsersInfoStorageInMemory.UsersInfoStorageInMemory.get_info"
-)
+METHOD_PATH = "src.storage.UsersInfoStorageInMemory.UsersInfoStorageInMemory.get_info"
 
 
 def test_get_info(mocker, client, user_info: UserInfoType):
@@ -18,7 +17,7 @@ def test_get_info(mocker, client, user_info: UserInfoType):
 
     assert_that(
         response.status_code,
-        equal_to(200),
+        equal_to(codes.ok),
         "Invalid response status code",
     )
     assert_that(loads(response.text), equal_to(dict(user_info)), "Invalid user info")
@@ -33,7 +32,7 @@ def test_get_info_invalid_user(mocker, client):
 
     assert_that(
         response.status_code,
-        equal_to(404),
+        equal_to(codes.not_found),
         "Invalid response status code",
     )
     assert_that(

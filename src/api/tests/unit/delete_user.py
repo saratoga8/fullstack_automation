@@ -1,11 +1,11 @@
 from hamcrest import assert_that, equal_to
 from requests import codes
 
-from src.api.src.storage.UsersInfoStorageInMemory import UserInfoType
-from src.api.tests.constants import USR_URL
+from src.storage.UserInfoType import UserInfoType
+from tests.constants import USR_URL
 
 DELETE_METHOD_PATH = (
-    "src.api.src.storage.UsersInfoStorageInMemory.UsersInfoStorageInMemory.delete"
+    "src.storage.UsersInfoStorageInMemory.UsersInfoStorageInMemory.delete"
 )
 
 

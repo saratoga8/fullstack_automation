@@ -1,6 +1,6 @@
 import base64
 
-from src.api.src.storage.UsersInfoStorageInMemory import UserInfoType
+from src.storage.UserInfoType import UserInfoType
 
 
 def create_auth_headers(user_info: UserInfoType) -> dict[str, str]:

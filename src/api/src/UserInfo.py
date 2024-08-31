@@ -1,6 +1,6 @@
 from falcon import Request, Response, HTTP_200, HTTP_500, HTTP_404
 
-from .errors import update_error_response
+from src.utils.errors import update_error_response
 from .storage import UsersInfoStorage
 
 

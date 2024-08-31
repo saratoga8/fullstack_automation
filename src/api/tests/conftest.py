@@ -2,8 +2,8 @@ import faker
 import pytest
 from falcon.testing import TestClient as FalconTestClient
 
-from src.api.src.app import create_app
-from src.api.src.storage.UserInfoType import UserInfoType
+from src.app import create_app
+from src.storage.UserInfoType import UserInfoType
 
 
 @pytest.fixture(scope="function")

@@ -3,9 +3,9 @@ from json import dumps, loads
 from hamcrest import assert_that, equal_to
 from requests import codes
 
-from src.api.src.storage.UsersInfoStorageInMemory import UserInfoType
-from src.api.tests.constants import USR_URL, USR_INFO_URL
-from src.api.tests.utils.auth import create_auth_headers
+from src.storage.UserInfoType import UserInfoType
+from tests.constants import USR_URL, USR_INFO_URL
+from tests.utils.auth import create_auth_headers
 
 
 class TestE2E:
