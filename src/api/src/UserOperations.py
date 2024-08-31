@@ -15,9 +15,9 @@ from falcon import (
     HTTP_400,
 )
 
+from src.api.src.errors import update_error_response
 from .storage import UsersInfoStorage
 from .storage.UsersInfoStorageInMemory import UserInfoType
-from ..tests.functional.utils.errors import update_error_response
 
 
 @dataclass
@@ -36,7 +36,7 @@ class Credentials:
 
 class UserOperations:
     def __init__(self, storage: UsersInfoStorage):
-        self._storage = storage
+        self._storage: UsersInfoStorage = storage
 
     async def on_get(self, req: Request, resp: Response):
         try:

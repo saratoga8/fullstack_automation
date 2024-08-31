@@ -2,13 +2,12 @@ import falcon.asgi
 
 from .UserInfo import UserInfo
 from .UserOperations import UserOperations
+from .storage.UsersInfoStorage import UsersInfoStorage
 from .storage.UsersInfoStorageInMemory import UsersInfoStorageInMemory
 
 
-def create_app():
+def create_app(storage: UsersInfoStorage = UsersInfoStorageInMemory()):
     app = falcon.asgi.App()
-
-    storage = UsersInfoStorageInMemory()
 
     usr_ops = UserOperations(storage)
     usr_info = UserInfo(storage)

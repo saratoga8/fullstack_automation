@@ -6,7 +6,7 @@ from src.api.src.storage.UserInfoType import UserInfoType
 
 class UsersInfoStorage(Protocol):
     @abstractmethod
-    def get_info(self, user_name: str) -> UserInfoType:
+    def get_info(self, user_name: str) -> UserInfoType | None:
         raise NotImplementedError
 
     @abstractmethod

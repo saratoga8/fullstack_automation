@@ -1,16 +1,15 @@
 from json import dumps, loads
 
-from falcon.testing import TestClient
 from hamcrest import assert_that, equal_to
 from requests import codes
 
 from src.api.src.storage.UsersInfoStorageInMemory import UserInfoType
 from src.api.tests.constants import USR_URL, USR_INFO_URL
-from src.api.tests.functional.utils.auth import create_auth_headers
+from src.api.tests.utils.auth import create_auth_headers
 
 
 class TestE2E:
-    def test_e2e(self, client: TestClient, user_info: UserInfoType):
+    def test_e2e(self, client, user_info: UserInfoType):
         user_name = user_info.name
         auth_headers = create_auth_headers(user_info)
         user_info_dict = dict(user_info)
