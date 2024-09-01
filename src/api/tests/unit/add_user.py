@@ -3,14 +3,14 @@ from json import dumps, loads
 from hamcrest import assert_that, equal_to
 from requests import codes
 
-from src.api.src.storage.UsersInfoStorageInMemory import UserInfoType
-from src.api.tests.constants import USR_URL
+from src.storage.UserInfoType import UserInfoType
+from tests.constants import USR_URL
 
 ADD_INFO_METHOD_PATH = (
-    "src.api.src.storage.UsersInfoStorageInMemory.UsersInfoStorageInMemory.add_info"
+    "src.storage.UsersInfoStorageInMemory.UsersInfoStorageInMemory.add_info"
 )
 GET_INFO_METHOD_PATH = (
-    "src.api.src.storage.UsersInfoStorageInMemory.UsersInfoStorageInMemory.get_info"
+    "src.storage.UsersInfoStorageInMemory.UsersInfoStorageInMemory.get_info"
 )
 
 

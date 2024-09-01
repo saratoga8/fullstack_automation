@@ -1,12 +1,11 @@
 from hamcrest import assert_that, equal_to
+from requests import codes
 
-from src.api.src.storage.UsersInfoStorageInMemory import UserInfoType
-from src.api.tests.constants import USR_URL
-from src.api.tests.utils.auth import create_auth_headers
+from src.storage.UserInfoType import UserInfoType
+from tests.constants import USR_URL
+from tests.utils.auth import create_auth_headers
 
-METHOD_PATH = (
-    "src.api.src.storage.UsersInfoStorageInMemory.UsersInfoStorageInMemory.get_info"
-)
+METHOD_PATH = "src.storage.UsersInfoStorageInMemory.UsersInfoStorageInMemory.get_info"
 
 
 def test_user_auth(mocker, client, user_info: UserInfoType):
@@ -15,7 +14,7 @@ def test_user_auth(mocker, client, user_info: UserInfoType):
 
     response = client.simulate_get(USR_URL, headers=create_auth_headers(user_info))
 
-    assert_that(response.status_code, equal_to(200), "User is not authorized")
+    assert_that(response.status_code, equal_to(codes.ok), "User is not authorized")
 
 
 def test_invalid_password_failed_auth(mocker, client, user_info: UserInfoType):
@@ -28,7 +27,7 @@ def test_invalid_password_failed_auth(mocker, client, user_info: UserInfoType):
 
     assert_that(
         response.status_code,
-        equal_to(401),
+        equal_to(codes.unauthorized),
         "Invalid status code",
     )
 
@@ -41,6 +40,6 @@ def test_invalid_user_failed_auth(mocker, client, user_info: UserInfoType):
 
     assert_that(
         response.status_code,
-        equal_to(404),
+        equal_to(codes.not_found),
         "Invalid status code",
     )

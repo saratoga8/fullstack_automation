@@ -1,10 +1,8 @@
 import pytest
 from hamcrest import assert_that, equal_to
 
-from src.api.src.storage.UsersInfoStorageInMemory import (
-    UsersInfoStorageInMemory,
-    UserInfoType,
-)
+from src.storage.UserInfoType import UserInfoType
+from src.storage.UsersInfoStorageInMemory import UsersInfoStorageInMemory
 
 
 class TestUsersInfoStorage:

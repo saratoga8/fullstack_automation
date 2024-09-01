@@ -1,7 +1,7 @@
 from abc import abstractmethod
 from typing import Protocol
 
-from src.api.src.storage.UserInfoType import UserInfoType
+from src.storage.UserInfoType import UserInfoType
 
 
 class UsersInfoStorage(Protocol):
