@@ -1,34 +1,36 @@
-from json import dumps, loads
-
 from hamcrest import assert_that, equal_to
-from requests import codes
+from requests import request, codes
 
 from src.storage.UserInfoType import UserInfoType
-from tests.constants import USR_URL, USR_INFO_URL
+from tests.constants import BASE_URL, USR_URL, USR_INFO_URL
+from tests.functional.utils.user import add_user
 from tests.utils.auth import create_auth_headers
 
 
 class TestE2E:
-    def test_e2e(self, client, user_info: UserInfoType):
-        user_name = user_info.name
-        auth_headers = create_auth_headers(user_info)
-        user_info_dict = dict(user_info)
+    def test_e2e(self, user_info: UserInfoType):
+        add_user(user_info)
 
-        client.simulate_post(USR_URL, body=dumps(user_info_dict))
-
-        response = client.simulate_get(USR_URL, headers=auth_headers)
+        url = f"{BASE_URL}/{USR_URL}"
+        response = request("GET", url, headers=create_auth_headers(user_info))
         assert_that(response.status_code, equal_to(codes.ok), "User is not authorized")
 
-        response = client.simulate_get(f"{USR_INFO_URL}/{user_name}")
+        url = f"{BASE_URL}/{USR_INFO_URL}/{user_info.name}"
+        response = request("GET", url)
         assert_that(
-            response.status_code, equal_to(codes.ok), "User info is not retrieved"
+            response.json(),
+            equal_to(dict(user_info)),
+            "Invalid user info",
         )
-        assert_that(loads(response.text), equal_to(user_info_dict), "Invalid user info")
 
-        client.simulate_delete(f"{USR_URL}/{user_name}")
-        response = client.simulate_get(USR_URL, headers=auth_headers)
+        url = f"{BASE_URL}/{USR_URL}/{user_info.name}"
+        request("DELETE", url)
+
+        url = f"{BASE_URL}/{USR_INFO_URL}/{user_info.name}"
+        response = request("GET", url)
+
         assert_that(
             response.status_code,
             equal_to(codes.not_found),
-            "Deleted user is still authorized",
+            "User should not be found",
         )

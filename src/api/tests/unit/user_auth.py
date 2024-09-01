@@ -14,7 +14,7 @@ def test_user_auth(mocker, client, user_info: UserInfoType):
 
     response = client.simulate_get(USR_URL, headers=create_auth_headers(user_info))
 
-    assert_that(response.status_code, equal_to(200), "User is not authorized")
+    assert_that(response.status_code, equal_to(codes.ok), "User is not authorized")
 
 
 def test_invalid_password_failed_auth(mocker, client, user_info: UserInfoType):

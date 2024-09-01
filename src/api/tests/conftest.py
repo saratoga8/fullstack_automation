@@ -1,8 +1,6 @@
 import faker
 import pytest
-from falcon.testing import TestClient as FalconTestClient
 
-from src.app import create_app
 from src.storage.UserInfoType import UserInfoType
 
 
@@ -16,8 +14,3 @@ def user_info() -> UserInfoType:
         "last_name": fake.last_name(),
     }
     return UserInfoType(info)
-
-
-@pytest.fixture(scope="function")
-def client() -> FalconTestClient:
-    return FalconTestClient(create_app())
