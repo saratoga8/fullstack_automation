@@ -1,0 +1,5 @@
+.tox/
+.venv/
+*.log
+.flake8
+.gitignore
