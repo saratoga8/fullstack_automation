@@ -6,7 +6,7 @@ import {mockServerError, mockUserExistance, mockUserInfo, mockUserNotFound} from
 require('dotenv').config();
 
 const apiUrl = process.env.API_URL;
-
+const apiUserUrl = `${apiUrl}/user`
 
 test.describe("Login", () => {
     const credentials = {username: "test", password: "test"};
@@ -17,8 +17,7 @@ test.describe("Login", () => {
 
     test.describe("Valid input data", () => {
         test("user should login with valid credentials", async ({page}) => {
-            const apiRequestUrl = `${apiUrl}/user?username=${credentials.username}&password=${credentials.password}`
-            await mockUserExistance(page, apiRequestUrl)
+            await mockUserExistance(page, apiUserUrl)
             const loginPage = await new LoginPage(page).open()
 
             await loginPage.login(credentials)
@@ -28,10 +27,9 @@ test.describe("Login", () => {
         })
 
         test("should show a correct user info", async ({page}) => {
-            let apiRequestUrl = `${apiUrl}/user?username=${credentials.username}&password=${credentials.password}`
-            await mockUserExistance(page, apiRequestUrl)
+            await mockUserExistance(page, apiUserUrl)
 
-            apiRequestUrl = `${apiUrl}/user_info?username=${credentials.username}`
+            const apiRequestUrl = `${apiUrl}/user_info/${credentials.username}`
             const userInfo = {first_name: 'John', last_name: 'Smith'}
             await mockUserInfo(page, apiRequestUrl, userInfo)
             const loginPage = await new LoginPage(page).open()
@@ -46,8 +44,7 @@ test.describe("Login", () => {
 
     test.describe("Invalid input data", () => {
         test("user should NOT login with invalid credentials", async ({page}) => {
-            const apiRequestUrl = `${apiUrl}/user?username=${credentials.username}&password=${credentials.password}`
-            await mockUserNotFound(page, apiRequestUrl)
+            await mockUserNotFound(page, apiUserUrl)
             const loginPage = await new LoginPage(page).open()
 
             await loginPage.login(credentials)
@@ -57,8 +54,7 @@ test.describe("Login", () => {
         })
 
         test('user should NOT login in the case of an error', async ({page}) => {
-            const apiRequestUrl = `${apiUrl}/user?username=${credentials.username}&password=${credentials.password}`
-            await mockServerError(page, apiRequestUrl)
+            await mockServerError(page, apiUserUrl)
             const loginPage = await new LoginPage(page).open()
 
             await loginPage.login(credentials)

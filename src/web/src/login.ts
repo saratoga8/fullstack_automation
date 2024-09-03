@@ -6,7 +6,9 @@ type elementId = 'warning' | 'error'
 
 const doesUserExist = async (username: string, password: string) => {
     if (username && password) {
-        const response = await axios.get(url, {params: {username, password}});
+        const response = await axios.get(url, {
+            auth: {username, password},
+        });
         if (response.status === axios.HttpStatusCode.Ok) {
             return true
         }
