@@ -8,7 +8,7 @@ from .storage.UsersInfoStorageInMemory import UsersInfoStorageInMemory
 
 
 def create_app(storage: UsersInfoStorage = UsersInfoStorageInMemory()):
-    app = falcon.asgi.App()
+    app = falcon.asgi.App(cors_enable=True)
 
     usr_ops = UserOperations(storage)
     usr_info = UserInfo(storage)

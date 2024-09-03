@@ -17,3 +17,7 @@ app.get('/welcome', async (req, res) => {
 app.listen(port, 'localhost', () => {
     console.log(`Server is running on http://localhost:${port}`);
 });
+
+app.get('/health', (req, res) => {
+    res.sendStatus(200)
+})

@@ -5,8 +5,7 @@ type UserInfo = { firstName: string; lastName: string };
 const url: string = `${process.env.API_URL}/user_info`;
 
 const getUserInfo = async (userName: string): Promise<UserInfo | null> => {
-    const params = {username: userName}
-    const response = await axios.get(url, {params});
+    const response = await axios.get(`${url}/${userName}`);
     try {
         if (response.status === axios.HttpStatusCode.Ok) {
             return {firstName: response.data.first_name, lastName: response.data.last_name};
