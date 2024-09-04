@@ -1,12 +1,10 @@
-FROM python:3.11-slim
+FROM python:3.11-alpine
 ENV POETRY_VERSION=1.8.1
 ENV PORT=8000
-RUN pip install "poetry==$POETRY_VERSION"
-
 WORKDIR /app
-
 COPY . .
-RUN poetry install --no-root --only=dev
+
+RUN apk --no-cache add curl && pip install "poetry==$POETRY_VERSION" && poetry install --no-root --only=dev
 
 EXPOSE $PORT
 

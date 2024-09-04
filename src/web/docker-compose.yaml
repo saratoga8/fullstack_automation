@@ -1,0 +1,31 @@
+services:
+  web:
+    image: web
+    container_name: web-app
+    ports:
+      - "3000:3000"
+    environment:
+      - API_URL=http://api:8000
+    depends_on:
+      api:
+        condition: service_healthy
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:3000/health" ]
+      interval: 5s
+      timeout: 5s
+      retries: 3
+
+  api:
+    image: api-server
+    container_name: api-service
+    ports:
+      - "8000:8000"
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8000/health" ]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+
+networks:
+  default:
+    name: my-network
