@@ -4,19 +4,13 @@ import {LoginPage} from "../infra/page-objects/LoginPage";
 import {fail} from 'assert'
 import {faker} from "@faker-js/faker";
 import {WelcomePage} from "../infra/page-objects/WelcomePage";
+import {UserInfo} from "./helpers/types";
 
 
 require('dotenv').config();
 
 const apiUrl = process.env.API_URL;
 const apiUserUrl = `${apiUrl}/user`
-
-type UserInfo = {
-    name: string,
-    password: string,
-    last_name: string,
-    first_name: string,
-}
 
 async function createUser(): Promise<UserInfo> {
     const userInfo = {
