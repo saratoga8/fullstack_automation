@@ -14,7 +14,7 @@ app.get('/welcome', async (req, res) => {
     res.sendFile(path.join(__dirname, 'welcome.html'));
 })
 
-app.listen(port, 'localhost', () => {
+app.listen(port, '0.0.0.0', () => {
     console.log(`Server is running on http://localhost:${port}`);
 });
 
