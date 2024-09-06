@@ -5,15 +5,15 @@ type UserInfo = { firstName: string; lastName: string };
 const url: string = `${process.env.API_URL}/user_info`;
 
 const getUserInfo = async (userName: string): Promise<UserInfo | null> => {
-    const response = await axios.get(`${url}/${userName}`);
     try {
+        const response = await axios.get(`${url}/${userName}`);
         if (response.status === axios.HttpStatusCode.Ok) {
             return {firstName: response.data.first_name, lastName: response.data.last_name};
         } else {
             console.error(`Error while requesting user info: Status ${response.status}: ${response.statusText}`);
         }
     } catch (error) {
-        console.error(`Error while trying to login with username ${userName}: ${error}`);
+        console.error(`Error while requesting info of the user '${userName}': ${error}`);
     }
     return null;
 }

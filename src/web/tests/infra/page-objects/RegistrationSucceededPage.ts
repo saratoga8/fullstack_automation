@@ -3,7 +3,7 @@ import {Page} from "@playwright/test";
 
 export class RegistrationSucceededPage extends PageAbstract {
     constructor(page: Page) {
-        super('Registration Succeeded', '/registration_success', 'Registration succeeded', page);
+        super('Registration Succeeded', '/success', 'Registration succeeded', page);
     }
 
     async text(): Promise<string> {

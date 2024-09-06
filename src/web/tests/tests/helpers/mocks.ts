@@ -51,10 +51,14 @@ export const mockUserAdd = async (page: Page, userInfo: UserInfo, url: string) =
     await mockRequest(page, url, {}, 200, 'POST')
 }
 
-export const mockUserAddFail = async (page: Page, userInfo: UserInfo, url: string) => {
-    await mockRequest(page, url, {}, 400, 'POST')
+export const mockUserAddFail = async (page: Page, expectedApiResponse: object, url: string) => {
+    await mockRequest(page, url, expectedApiResponse, 400, 'POST')
 }
 
 export const mockExistingUserAddFail = async (page: Page, userInfo: UserInfo, url: string) => {
     await mockRequest(page, url, {}, 409, 'POST')
+}
+
+export const mockServerErrorUserAddFail = async (page: Page, url: string) => {
+    await mockRequest(page, url, {}, 500, 'POST')
 }

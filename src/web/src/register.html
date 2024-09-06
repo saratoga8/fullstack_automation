@@ -58,13 +58,17 @@
         .form-container button:hover {
             background-color: #218838;
         }
+
+        .form-container p {
+            color: red;
+        }
     </style>
 </head>
 <body>
 
 <div class="form-container">
     <h2>Register</h2>
-    <form id="registrationForm" onsubmit="return submit()">
+    <form id="registrationForm">
         <label for="username">User Name:</label>
         <input id="username" name="username" required type="text">
 
@@ -77,12 +81,13 @@
         <label for="lastName">Last Name:</label>
         <input id="lastName" name="lastName" required type="text">
 
-        <button type="submit">Submit</button>
+        <button id="submit" onclick="sendForm()" type="button">Submit</button>
     </form>
     <p hidden="hidden" id="error">Server Error</p>
+    <p hidden="hidden" id="warning">User already exists</p>
 </div>
 
-<script src="submit.js"></script>
 <script src="bundle.js"></script>
+<script src="register.js"></script>
 </body>
 </html>

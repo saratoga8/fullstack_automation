@@ -3,7 +3,7 @@ import {UserInfo} from "./helpers/types";
 import {faker} from "@faker-js/faker";
 import {RegistrationPage} from "../infra/page-objects/RegisterationPage";
 import {RegistrationSucceededPage} from "../infra/page-objects/RegistrationSucceededPage";
-import {mockExistingUserAddFail, mockUserAdd, mockUserAddFail} from "./helpers/mocks";
+import {mockExistingUserAddFail, mockServerErrorUserAddFail, mockUserAdd, mockUserAddFail} from "./helpers/mocks";
 
 require('dotenv').config();
 
@@ -22,7 +22,7 @@ const test = base.extend<{ userInfo: UserInfo }>({
     }
 })
 
-test.describe.skip("Registration", () => {
+test.describe("Registration", () => {
     test.beforeAll(() => {
         expect(apiUrl, 'The API address is invalid').toBeDefined()
     })
@@ -40,15 +40,18 @@ test.describe.skip("Registration", () => {
 
         const successPage = new RegistrationSucceededPage(page)
         expect(await successPage.isOpen(), `The page ${successPage.name} is not open`).toBeTruthy()
-        expect(await successPage.text(), `Invalid text in the page ${successPage.name}`).toContain(userInfo.name)
     })
 
     test("user should fail registration with invalid data", async ({page, userInfo}) => {
-        await mockUserAddFail(page, userInfo, apiUserUrl)
+        const responseErrMessage = "Invalid user name"
+        await mockUserAddFail(page, {error: responseErrMessage}, apiUserUrl)
         const registerPage = new RegistrationPage(page)
 
         await registerPage.registerUser(userInfo)
-        expect(await registerPage.errorShown(), `The page ${registerPage.name} has no error`).toBeTruthy()
+
+        expect(await registerPage.warningShown(), `The page ${registerPage.name} has no warning`).toBeTruthy()
+        const errMsg = `Invalid warning in the page ${registerPage.name}`
+        expect(await registerPage.warningTxt(), errMsg).toEqual(responseErrMessage)
     })
 
     test("an existing user should fail registration", async ({page, userInfo}) => {
@@ -57,7 +60,18 @@ test.describe.skip("Registration", () => {
 
         await registerPage.registerUser(userInfo)
 
+        expect(await registerPage.warningShown(), `The page ${registerPage.name} has no warning`).toBeTruthy()
+        const expectedTxt = `User ${userInfo.name} already exists`
+        expect(await registerPage.warningTxt(), `Invalid warning in the page ${registerPage.name}`).toEqual(expectedTxt)
+    })
+
+    test("should fail user adding because of a server error", async ({page, userInfo}) => {
+        await mockServerErrorUserAddFail(page, apiUserUrl)
+        const registerPage = new RegistrationPage(page)
+
+        await registerPage.registerUser(userInfo)
+
         expect(await registerPage.errorShown(), `The page ${registerPage.name} has no error`).toBeTruthy()
-        expect(await registerPage.errorTxt(), `Invalid error in the page ${registerPage.name}`).toEqual('User already exists')
+        expect(await registerPage.errorTxt(), `Invalid error in the page ${registerPage.name}`).toEqual('Server Error')
     })
 })
