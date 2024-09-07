@@ -7,6 +7,6 @@ ENV WEB_APP_PORT="3000"
 
 RUN apk --no-cache add curl && npm install --production && npm run build
 
-EXPOSE 3000
+EXPOSE $WEB_APP_PORT
 
 CMD ["npm", "start"]

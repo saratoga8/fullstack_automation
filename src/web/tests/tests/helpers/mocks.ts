@@ -1,5 +1,5 @@
 import {Page} from "@playwright/test";
-import {UserInfo} from "./types";
+import {UserInfo} from "./user_info";
 
 
 const mockRequest = async (page: Page,
@@ -48,7 +48,7 @@ export const mockServerError = async (page: Page, url: string) => {
 }
 
 export const mockUserAdd = async (page: Page, userInfo: UserInfo, url: string) => {
-    await mockRequest(page, url, {}, 200, 'POST')
+    await mockRequest(page, url, {}, 201, 'POST')
 }
 
 export const mockUserAddFail = async (page: Page, expectedApiResponse: object, url: string) => {

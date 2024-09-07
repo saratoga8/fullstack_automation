@@ -1,6 +1,6 @@
 import {expect, test as base} from "@playwright/test";
-import {UserInfo} from "./helpers/types";
-import {faker} from "@faker-js/faker";
+import {buildUserInfo, UserInfo} from "./helpers/user_info";
+
 import {RegistrationPage} from "../infra/page-objects/RegisterationPage";
 import {RegistrationSucceededPage} from "../infra/page-objects/RegistrationSucceededPage";
 import {mockExistingUserAddFail, mockServerErrorUserAddFail, mockUserAdd, mockUserAddFail} from "./helpers/mocks";
@@ -12,12 +12,7 @@ const apiUserUrl = `${apiUrl}/user`
 
 const test = base.extend<{ userInfo: UserInfo }>({
     userInfo: async ({page}, use) => {
-        const info = {
-            name: faker.internet.userName(),
-            password: faker.internet.password(),
-            last_name: faker.person.lastName(),
-            first_name: faker.person.firstName(),
-        }
+        const info = buildUserInfo()
         await use(info)
     }
 })

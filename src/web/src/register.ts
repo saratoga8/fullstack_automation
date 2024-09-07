@@ -1,6 +1,12 @@
 import {getElementValue, setElementHidden} from "./helpers/html";
-import {UserInfo} from "../tests/tests/helpers/types";
 import axios, {AxiosResponse} from "axios";
+
+type UserInfo = {
+    name: string,
+    password: string,
+    first_name: string,
+    last_name: string,
+}
 
 const getUserInfo = (): UserInfo => {
     return {
@@ -21,7 +27,7 @@ const url: string = process.env.API_URL ?? 'http://localhost:8000'
 
 const buildResultInfo = (response: AxiosResponse): RequestResultInfo => {
     switch (response.status) {
-        case axios.HttpStatusCode.Ok:
+        case axios.HttpStatusCode.Created:
             return {result: RequestResult.OK};
         case axios.HttpStatusCode.Conflict:
             return {result: RequestResult.USER_EXISTS}

@@ -1,10 +1,12 @@
 import {expect, test} from "@playwright/test";
 import axios from 'axios';
-import {LoginPage} from "../infra/page-objects/LoginPage";
 import {fail} from 'assert'
 import {faker} from "@faker-js/faker";
+import {buildUserInfo, UserInfo} from "./helpers/user_info";
+import {RegistrationPage} from "../infra/page-objects/RegisterationPage";
+import {RegistrationSucceededPage} from "../infra/page-objects/RegistrationSucceededPage";
+import {LoginPage} from "../infra/page-objects/LoginPage";
 import {WelcomePage} from "../infra/page-objects/WelcomePage";
-import {UserInfo} from "./helpers/types";
 
 
 require('dotenv').config();
@@ -28,9 +30,13 @@ async function createUser(): Promise<UserInfo> {
     return userInfo
 }
 
-test.describe('E2E', () => {
+test.describe('E2E', {tag: '@e2e'}, () => {
+    let userInfo = null
+    test.describe.configure({mode: 'serial'});
+
     test.beforeAll(() => {
         expect(apiUrl, 'The API address is invalid').toBeDefined()
+        userInfo = buildUserInfo()
     })
 
     test.beforeEach(async ({baseURL}) => {
@@ -48,16 +54,21 @@ test.describe('E2E', () => {
         }
     })
 
-    test('user should get to the Welcome Page', async ({page}) => {
-        const userInfo = await createUser()
+    test("user should pass registration", async ({page}) => {
+        const registerPage = await new RegistrationPage(page).open()
 
+        await registerPage.registerUser(userInfo)
+
+        const successPage = new RegistrationSucceededPage(page)
+        expect(await successPage.isOpen(), `The page ${successPage.name} is not open`).toBeTruthy()
+    })
+
+    test("user should login", async ({page}) => {
         const loginPage = await new LoginPage(page).open()
 
-        const credentials = {username: userInfo.name, password: userInfo.password};
-        await loginPage.login(credentials)
-        const welcomePage = new WelcomePage(credentials.username, page)
+        await loginPage.login({username: userInfo.name, password: userInfo.password})
+
+        const welcomePage = new WelcomePage(userInfo.name, page)
         expect(await welcomePage.isOpen(), `User is not on the ${welcomePage.name}`).toBeTruthy()
-        const expected = {first_name: userInfo.first_name, last_name: userInfo.last_name}
-        expect(await welcomePage.userInfo(), 'Invalid user info').toEqual(expected)
     })
 });

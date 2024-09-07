@@ -1,6 +1,6 @@
 import {PageAbstract} from "./PageAbstract";
 import {Page} from "@playwright/test";
-import {UserInfo} from "../../tests/helpers/types";
+import {UserInfo} from "../../tests/helpers/user_info";
 import {TextInput} from "../page-elements/TextInput";
 import {Button} from "../page-elements/Button";
 
