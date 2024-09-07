@@ -1,7 +1,7 @@
 import {expect, test} from "@playwright/test";
 import {LoginPage} from "../infra/page-objects/LoginPage";
 import {WelcomePage} from "../infra/page-objects/WelcomePage";
-import {mockServerError, mockUserExistance, mockUserInfo, mockUserNotFound} from "./helpers";
+import {mockServerError, mockUserExistance, mockUserInfo, mockUserNotFound} from "./helpers/mocks";
 
 require('dotenv').config();
 

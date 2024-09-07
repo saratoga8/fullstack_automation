@@ -1,4 +1,6 @@
 import {Page} from "@playwright/test";
+import {UserInfo} from "./user_info";
+
 
 const mockRequest = async (page: Page,
                            url: string,
@@ -43,4 +45,20 @@ export const mockUserNotFound = async (page: Page, url: string) => {
 
 export const mockServerError = async (page: Page, url: string) => {
     await mockRequest(page, url, {}, 500)
+}
+
+export const mockUserAdd = async (page: Page, userInfo: UserInfo, url: string) => {
+    await mockRequest(page, url, {}, 201, 'POST')
+}
+
+export const mockUserAddFail = async (page: Page, expectedApiResponse: object, url: string) => {
+    await mockRequest(page, url, expectedApiResponse, 400, 'POST')
+}
+
+export const mockExistingUserAddFail = async (page: Page, userInfo: UserInfo, url: string) => {
+    await mockRequest(page, url, {}, 409, 'POST')
+}
+
+export const mockServerErrorUserAddFail = async (page: Page, url: string) => {
+    await mockRequest(page, url, {}, 500, 'POST')
 }

@@ -5,8 +5,10 @@
   "author": "Daniel Haimov",
   "main": "../web/dist/index.js",
   "scripts": {
-    "tests": "tsc --incremental -p tests/tsconfig.json && playwright test -c dist/tests",
-    "tests-headed": "npm run tests -- --headed",
+    "tests-all": "tsc --incremental -p tests/tsconfig.json && playwright test -c dist/tests",
+    "tests:mocked": "npm run tests-all -- --grep-invert @e2e",
+    "tests:mocked:headed": "npm run non-e2e -- --headed",
+    "e2e": "npm run tests-all -- --grep @e2e",
     "build": "npx webpack --config webpack.config.js",
     "start": "npx ts-node src/server.ts"
   },

@@ -1,27 +1,6 @@
-import axios from 'axios';
+import {doesUserExist} from "./helpers/api";
+import {setElementHidden} from "./helpers/html";
 
-const url: string = `${process.env.API_URL}/user`;
-
-type elementId = 'warning' | 'error'
-
-const doesUserExist = async (username: string, password: string) => {
-    if (username && password) {
-        const response = await axios.get(url, {
-            auth: {username, password},
-        });
-        if (response.status === axios.HttpStatusCode.Ok) {
-            return true
-        }
-        if (response.status === axios.HttpStatusCode.NotFound) {
-            return false;
-        }
-        throw new Error('Invalid status code: ' + response.status);
-    }
-}
-
-const setElementHidden = (element: elementId, hidden: boolean) => {
-    (document.getElementById(element) as HTMLElement).hidden = hidden
-}
 
 const submitLogin = async () => {
     const username = (document.getElementById('username') as HTMLInputElement).value;

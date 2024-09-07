@@ -3,7 +3,7 @@ const webpack = require('webpack');
 require('dotenv').config();
 
 module.exports = {
-    entry: ['./src/index.ts', './src/welcome.ts'],
+    entry: ['./src/index.ts', './src/welcome.ts', './src/register.ts'],
     output: {
         filename: 'bundle.js',
         path: path.resolve(__dirname, 'dist'),
