@@ -6,8 +6,8 @@
   "main": "../web/dist/index.js",
   "scripts": {
     "tests-all": "tsc --incremental -p tests/tsconfig.json && playwright test -c dist/tests",
-    "non-e2e": "npm run tests-all -- --grep-invert @e2e",
-    "non-e2e:headed": "npm run non-e2e -- --headed",
+    "tests:mocked": "npm run tests-all -- --grep-invert @e2e",
+    "tests:mocked:headed": "npm run non-e2e -- --headed",
     "e2e": "npm run tests-all -- --grep @e2e",
     "build": "npx webpack --config webpack.config.js",
     "start": "npx ts-node src/server.ts"
