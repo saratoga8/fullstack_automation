@@ -9,8 +9,6 @@ import {LoginPage} from "../infra/page-objects/LoginPage";
 import {WelcomePage} from "../infra/page-objects/WelcomePage";
 
 
-require('dotenv').config();
-
 const apiUrl = process.env.API_URL;
 const apiUserUrl = `${apiUrl}/user`
 
