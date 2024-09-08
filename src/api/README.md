@@ -1,4 +1,4 @@
-## API Server example of a Full Stack Application
+## API Server example of a Full Stack Project
 
 ### Project structure
 
