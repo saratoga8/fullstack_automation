@@ -3,8 +3,6 @@ import {LoginPage} from "../infra/page-objects/LoginPage";
 import {WelcomePage} from "../infra/page-objects/WelcomePage";
 import {mockServerError, mockUserExistance, mockUserInfo, mockUserNotFound} from "./helpers/mocks";
 
-require('dotenv').config();
-
 const apiUrl = process.env.API_URL;
 const apiUserUrl = `${apiUrl}/user`
 

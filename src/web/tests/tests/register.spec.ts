@@ -5,8 +5,6 @@ import {RegistrationPage} from "../infra/page-objects/RegisterationPage";
 import {RegistrationSucceededPage} from "../infra/page-objects/RegistrationSucceededPage";
 import {mockExistingUserAddFail, mockServerErrorUserAddFail, mockUserAdd, mockUserAddFail} from "./helpers/mocks";
 
-require('dotenv').config();
-
 const apiUrl = process.env.API_URL;
 const apiUserUrl = `${apiUrl}/user`
 
