@@ -22,7 +22,7 @@
 ### Tests local run with mocked API server
 
 Start the Web App: `npm run build && npm run start`  
-Run tests: `npm run tests:mocked`
+Run tests: `npm run tests:mocked` (at the first time you'll be asked to install browsers for playwright)
 
 ### Tests run in Docker
 
