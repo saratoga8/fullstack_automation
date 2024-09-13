@@ -8,7 +8,7 @@ class UserInfo:
     def __init__(self, storage: UsersInfoStorage):
         self._storage: UsersInfoStorage = storage
 
-    async def on_get(self, req: Request, resp: Response, name: str):
+    async def on_get(self, _req: Request, resp: Response, name: str):
         try:
             if info := self._storage.get_info(name):
                 resp.status = HTTP_200

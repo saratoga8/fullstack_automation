@@ -66,7 +66,7 @@ class UserOperations:
         except (ValueError, TypeError, JSONDecodeError) as e:
             update_error_response(e, HTTP_400, resp)
 
-    async def on_delete(self, req: Request, resp: Response, name):
+    async def on_delete(self, _req: Request, resp: Response, name):
         try:
             self._storage.delete(name)
             resp.status = HTTP_200

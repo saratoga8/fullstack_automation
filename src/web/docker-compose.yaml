@@ -16,7 +16,7 @@ services:
       retries: 3
 
   api:
-    image: api-server
+    image: api
     container_name: api-service
     ports:
       - "8000:8000"
