@@ -28,3 +28,9 @@ Run tests: `npm run tests:mocked` (at the first time you'll be asked to install 
 
 Run tests with the mocked API Server: `./run-mocked-tests.sh`  
 Run E2E tests with the real API Server: `./run-e2e-tests.sh`
+
+### Used tools
+
+[ExpressJS](http://expressjs.com/) - Fast, unopinionated, minimalist web framework for Node.js  
+[Axios](https://axios-http.com/) - Promise based HTTP client for the browser and node.js  
+[Playwright](https://playwright.dev/) - Automated testing of Web Applications 
