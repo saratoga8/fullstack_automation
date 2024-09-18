@@ -1,0 +1,28 @@
+@startuml
+'https://plantuml.com/component-diagram
+
+
+() "User Access" as UA
+
+() "HTTP" as HTTP
+
+package "Web" {
+  [Web App] as WA
+  WA - HTTP
+}
+
+UA -- WA
+
+package "API" {
+  HTTP - [API Server]
+
+    package "Storage" {
+      StorageInterface -u- [API Server]
+      database "Memory\nStorage" as Mem
+      Mem .u. StorageInterface
+      [Mock] .u. StorageInterface
+    }
+}
+
+
+@enduml
