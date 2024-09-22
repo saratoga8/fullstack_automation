@@ -1,0 +1,30 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+hidefootbox
+autonumber
+participant Test as Test
+participant ApiServerMocks as Mock
+participant "Registration Page Object" as PO
+participant "Real RegistrationPage" as RP
+participant "Success Page Object" as SPO
+participant "Real SuccessPage" as SP
+
+create Mock
+Test -> Mock: new
+create PO
+Test -> PO: new
+Test -> PO: open
+PO -> RP: assert URL
+Test <- PO: return true
+Test -> PO: registry(userInfo)
+PO -> RP: fill the registry form
+RP --> Mock: HTTP request to API Server
+Mock --> RP: mocked HTTP response
+RP -> Test: redirect to a succeeded page
+create SPO
+Test -> SPO: new
+SPO -> SP: assert URL
+SPO -> Test: true
+
+@enduml

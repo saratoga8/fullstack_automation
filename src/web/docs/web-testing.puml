@@ -1,0 +1,33 @@
+@startuml
+cloud WebApp {
+ node LoginPage as RLP
+ node RegistrationPage as RRP
+}
+
+package "Tests" {
+  package "Page Objects" {
+     [LoginPage] as LP
+     [RegistrationPage] as RP
+  }
+  package "Mocks" {
+     [ApiServer] as Api
+  }
+
+  rectangle RegistrationTests as RT #Yellow
+  rectangle LoginTests as LT #Yellow
+
+  RT --> RP
+  LT --> LP
+
+  RT -u-> Api
+  LT -u-> Api
+
+  RP ..> RRP
+  LP ..> RLP: using IDs of a real page
+}
+
+RRP ..> Api: every request to API server\nis being trapped by Mock
+RLP ..> Api
+
+
+@enduml

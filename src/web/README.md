@@ -15,6 +15,10 @@
      ├── Dockerfile                          Docker file of the Web App 
      └── docker-compose.yaml                 Composition of the Web App and the API Server
 
+### Components of testing
+
+![components](docs/web-testing.png)
+
 ### Installation
 
 `npm install`

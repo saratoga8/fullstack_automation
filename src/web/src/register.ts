@@ -25,6 +25,9 @@ type RequestResultInfo = { result: RequestResult, errTxt?: string }
 
 const url: string = process.env.API_URL ?? 'http://localhost:8000'
 
+const errorID = 'error'
+const warningID = 'warning'
+
 const buildResultInfo = (response: AxiosResponse): RequestResultInfo => {
     switch (response.status) {
         case axios.HttpStatusCode.Created:
@@ -52,16 +55,16 @@ const sendAddUserRequest = async (userInfo: UserInfo): Promise<RequestResultInfo
 
 const showErrors = (resultInfo: RequestResultInfo, userName: string) => {
     if (resultInfo.result === RequestResult.USER_EXISTS) {
-        (document.getElementById('warning') as HTMLElement).innerText = `User ${userName} already exists`;
-        setElementHidden('warning', false)
+        (document.getElementById(warningID) as HTMLElement).innerText = `User ${userName} already exists`;
+        setElementHidden(warningID, false)
     } else if (resultInfo.result === RequestResult.INVALID_VALUES) {
-        (document.getElementById('warning') as HTMLElement).innerText = resultInfo.errTxt ?? "Invalid values";
-        setElementHidden('warning', false)
+        (document.getElementById(warningID) as HTMLElement).innerText = resultInfo.errTxt ?? "Invalid values";
+        setElementHidden(warningID, false)
     } else if (resultInfo.result === RequestResult.SERVER_ERROR) {
-        setElementHidden('error', false)
+        setElementHidden(errorID, false)
     } else {
-        (document.getElementById('error') as HTMLElement).innerText = "Unknown error";
-        setElementHidden('error', false)
+        (document.getElementById(errorID) as HTMLElement).innerText = "Unknown error";
+        setElementHidden(errorID, false)
     }
 }
 
@@ -78,12 +81,12 @@ const addNewUser = async (userInfo: UserInfo): Promise<void> => {
 const sendForm = async () => {
     const userInfo = getUserInfo()
 
-    setElementHidden('error', true)
-    setElementHidden('warning', true)
+    setElementHidden(errorID, true)
+    setElementHidden(warningID, true)
     try {
         await addNewUser(userInfo)
     } catch (error) {
-        setElementHidden('error', false)
+        setElementHidden(errorID, false)
         console.error(`Error while trying to add a user: ${error}`);
     }
 }

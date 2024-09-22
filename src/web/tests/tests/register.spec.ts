@@ -20,7 +20,7 @@ test.describe("Registration", () => {
         expect(apiUrl, 'The API address is invalid').toBeDefined()
     })
 
-    test.beforeEach(async ({page}) => {
+    test.beforeEach("Open registry page", async ({page}) => {
         const registerPage = await new RegistrationPage(page).open()
         expect(registerPage.isOpen(), `The page ${registerPage.name} is not open`).toBeTruthy()
     })
