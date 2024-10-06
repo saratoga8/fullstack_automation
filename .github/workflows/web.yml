@@ -8,6 +8,7 @@ on:
 env:
   API_URL: http://localhost:8000
   WEB_APP_PORT: 3000
+  IMAGE: web
 
 
 jobs:
@@ -27,12 +28,12 @@ jobs:
       - name: Build project image
         run: |
           cd src/web
-          docker build . --file Dockerfile --tag web
+          docker build . --file Dockerfile --tag $IMAGE
 
       - name: Run service
         run: |
           cd src/web
-          docker run -p 3000:3000 --name web -d web:latest
+          docker run -p $WEB_APP_PORT:$WEB_APP_PORT --name web -d $IMAGE:latest
 
       - name: Run tests
         run: |
