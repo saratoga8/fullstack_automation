@@ -7,28 +7,27 @@ on:
 
 jobs:
   e2e:
-    web:
-      name: Web part
-      runs-on: ubuntu-latest
+    name: E2E tests
+    runs-on: ubuntu-latest
 
-      steps:
-        - name: Check out repo
-          uses: actions/checkout@v4
+    steps:
+      - name: Check out repo
+        uses: actions/checkout@v4
 
-        - name: Build API image
-          run: |
-            docker build -t api -f src/api/Dockerfile
+      - name: Build API image
+        run: |
+          docker build -t api -f src/api/Dockerfile
 
-        - name: Build Web image
-          run: |
-            docker build -t web -f src/web/Dockerfile
+      - name: Build Web image
+        run: |
+          docker build -t web -f src/web/Dockerfile
 
-        - name: Start all services
-          run: |
-            cd src/web
-            docker-compose up -d
+      - name: Start all services
+        run: |
+          cd src/web
+          docker-compose up -d
 
-        - name: Run E2E tests
-          run: |
-            cd src/web
-            npm i -D && npm run e2e
+      - name: Run E2E tests
+        run: |
+          cd src/web
+          npm i -D && npm run e2e
