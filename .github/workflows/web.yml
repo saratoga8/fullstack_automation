@@ -20,13 +20,23 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Setup Node
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v4
         with:
           node-version: '22.x'
 
-      - name: Build
+      - name: Build project image
         run: |
           cd src/web
-          npm install
-          npm run build
+          docker build . --file Dockerfile --tag web
+
+      - name: Run service
+        run: |
+          cd src/web
+          docker run -p 3000:3000 --name web -d web:latest
+
+      - name: Run tests
+        run: |
+          cd src/web
+          npm i -D 
+          npm run tests:mocked
           
