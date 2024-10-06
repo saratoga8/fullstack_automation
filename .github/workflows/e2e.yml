@@ -17,12 +17,12 @@ jobs:
       - name: Build API image
         run: |
           cd src/api 
-          docker build . --file src/api/Dockerfile --tag api
+          docker build . --file Dockerfile --tag api
 
       - name: Build Web image
         run: |
           cd src/web 
-          docker build . --file src/web/Dockerfile --tag web
+          docker build . --file Dockerfile --tag web
 
       - name: Start all services
         run: |
