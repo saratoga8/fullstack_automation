@@ -1,18 +1,13 @@
-# This is a basic workflow that is manually triggered
+name: API workflow
 
-name: Manual workflow
-
-# Controls when the action will run. Workflow runs when manually triggered using the UI
-# or API.
 on:
   push:
     branches:
       - "*"
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  tests:
-    name: Running tests
+  api:
+    name: API part
     runs-on: ubuntu-latest
 
     steps:
