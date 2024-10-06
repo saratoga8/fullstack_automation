@@ -32,4 +32,4 @@ jobs:
           cd src/api
           python -m pip install "poetry==1.8.1"
           poetry install --no-root
-          ls -a
+          python -m tox run -e unit
