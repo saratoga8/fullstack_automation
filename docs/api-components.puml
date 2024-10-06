@@ -1,0 +1,20 @@
+@startuml
+'https://plantuml.com/component-diagram
+
+
+() "User Access" as UA
+
+
+
+package "API" {
+  UA - [API Server]
+
+    package "Storage" {
+      StorageInterface -u- [API Server]
+      database "Memory\nStorage" as Mem
+      Mem .u. StorageInterface
+      [Mock] .u. StorageInterface
+    }
+}
+
+@enduml
