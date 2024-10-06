@@ -27,13 +27,9 @@ jobs:
         with:
           python-version: '3.x'
 
-      - name: Install dependencies
+      - name: Install dependencies and tests
         run: |
           cd src/api
           python -m pip install "poetry==1.8.1"
           poetry install --no-root
-
-      - name: Run tests
-        run: |
-          cd src/api
           pytest tests/unit
