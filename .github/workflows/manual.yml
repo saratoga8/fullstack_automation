@@ -9,9 +9,6 @@ on:
     branches:
       - "*"
 
-env:
-  DOCKER_IMAGE_NAME: project-image
-
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   tests:
