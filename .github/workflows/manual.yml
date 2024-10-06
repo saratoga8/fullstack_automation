@@ -31,5 +31,5 @@ jobs:
         run: |
           cd src/api
           python -m pip install "poetry==1.8.1"
-          poetry install --no-root
-          python -m tox run -e unit
+          poetry install --no-root --with test
+          tox run -e unit
