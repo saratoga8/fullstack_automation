@@ -30,7 +30,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install "poetry==1.8.1"
-          cd src/api && poetry install --no-root
+          cd  poetry install --no-root
 
       - name: Run tests
-        run: pytest tests/unit
+        run: src/api && pytest tests/unit
