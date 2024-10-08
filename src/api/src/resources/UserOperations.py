@@ -22,9 +22,6 @@ from src.utils.errors import update_error_response
 
 @dataclass
 class Credentials:
-    username: str
-    password: str
-
     def __init__(self, username: str, password: str):
         if not username:
             raise ValueError("Invalid username")
