@@ -49,6 +49,6 @@ jobs:
           npm run e2e
 
       - name: Shut down and clean up
-        run:
+        run: |
           cd src/web
           docker-compose down
