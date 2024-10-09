@@ -20,6 +20,12 @@ jobs:
       - name: Check out repo
         uses: actions/checkout@v4
 
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Set up Docker Compose
+        run: sudo apt-get update && sudo apt-get install docker-compose -y
+
       - name: Build API image
         run: |
           cd src/api 
@@ -29,12 +35,6 @@ jobs:
         run: |
           cd src/web 
           docker build . --file Dockerfile --tag web
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
-
-      - name: Set up Docker Compose
-        run: sudo apt-get update && sudo apt-get install docker-compose -y
 
       - name: Start all services
         run: |
@@ -49,4 +49,6 @@ jobs:
           npm run e2e
 
       - name: Shut down and clean up
-        run: docker-compose down
+        run:
+          cd src/web
+          docker-compose down

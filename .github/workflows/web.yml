@@ -39,6 +39,6 @@ jobs:
         run: |
           cd src/web
           npm i -D 
-          npx playwright install
+          npx playwright install chromium --with-deps
           npm run tests:mocked
           
