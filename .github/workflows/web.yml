@@ -1,0 +1,44 @@
+name: Web workflow
+
+on:
+  push:
+    branches:
+      - "*"
+
+env:
+  API_URL: http://localhost:8000
+  WEB_APP_PORT: 3000
+  IMAGE: web
+
+
+jobs:
+  web:
+    name: Web part
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repo
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22.x'
+
+      - name: Build project image
+        run: |
+          cd src/web
+          docker build . --file Dockerfile --tag $IMAGE
+
+      - name: Run service
+        run: |
+          cd src/web
+          docker run -p $WEB_APP_PORT:$WEB_APP_PORT --name web -d $IMAGE:latest
+
+      - name: Run tests
+        run: |
+          cd src/web
+          npm i -D 
+          npx playwright install chromium --with-deps
+          npm run tests:mocked
+          
