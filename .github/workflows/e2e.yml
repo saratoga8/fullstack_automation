@@ -44,7 +44,9 @@ jobs:
       - name: Run E2E tests
         run: |
           cd src/web
-          npm i -D && npm run e2e
+          npm i -D
+          npx playwright install chromium --with-deps
+          npm run e2e
 
       - name: Shut down and clean up
         run: docker-compose down
