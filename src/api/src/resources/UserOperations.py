@@ -36,16 +36,23 @@ class UserOperations:
         self._storage: UsersInfoStorage = storage
 
     async def on_get(self, req: Request, resp: Response):
+        resp.content_type = "application/json"
         try:
             creds = self._get_creds(req.auth)
         except ValueError as e:
             update_error_response(e, HTTP_400, resp)
             return
+        self.__update_response_to_auth(creds, resp)
+
+    def __update_response_to_auth(self, creds, resp):
         try:
             if info := self._storage.get_info(creds.username):
-                resp.status = HTTP_200 if info.password == creds.password else HTTP_401
+                if info.password == creds.password:
+                    resp.status = HTTP_200
+                else:
+                    update_error_response("Invalid password", HTTP_401, resp)
             else:
-                resp.status = HTTP_404
+                update_error_response(f"User {creds.username} not found", HTTP_404, resp)
         except ValueError as e:
             update_error_response(e, HTTP_500, resp)
 
