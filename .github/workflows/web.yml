@@ -6,9 +6,11 @@ on:
       - "*"
 
 env:
-  API_URL: http://localhost:8000
+  API_PORT: 8000
+  API_URL: http://localhost:$API_PORT
   WEB_APP_PORT: 3000
   IMAGE: web
+  MOCK_IMAGE: mock
 
 
 jobs:
@@ -30,10 +32,20 @@ jobs:
           cd src/web
           docker build . --file Dockerfile --tag $IMAGE
 
+      - name: Build API Mock image
+        run: |
+          cd src/api
+          docker build . --file Dockerfile.mock --tag $MOCK_IMAGE
+
       - name: Run service
         run: |
           cd src/web
           docker run -p $WEB_APP_PORT:$WEB_APP_PORT --name web -d $IMAGE:latest
+
+      - name: Run API Mock service
+        run: |
+          cd src/api
+          docker run -p $API_PORT:$API_PORT --name mock -d $MOCK_IMAGE:latest
 
       - name: Run tests
         run: |
