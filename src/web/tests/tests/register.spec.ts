@@ -3,7 +3,6 @@ import {buildUserInfo, UserInfo} from "./helpers/user_info";
 
 import {RegistrationPage} from "../infra/page-objects/RegisterationPage";
 import {RegistrationSucceededPage} from "../infra/page-objects/RegistrationSucceededPage";
-import {mockExistingUserAddFail, mockServerErrorUserAddFail, mockUserAdd, mockUserAddFail} from "./helpers/mocks";
 
 const apiUrl = process.env.API_URL;
 const apiUserUrl = `${apiUrl}/user`
@@ -26,7 +25,6 @@ test.describe("Registration", () => {
     })
 
     test("user should pass registration with valid data", async ({page, userInfo}) => {
-        await mockUserAdd(page, userInfo, apiUserUrl)
         const registerPage = new RegistrationPage(page)
 
         await registerPage.registerUser(userInfo)
@@ -36,8 +34,8 @@ test.describe("Registration", () => {
     })
 
     test("user should fail registration with invalid data", async ({page, userInfo}) => {
-        const responseErrMessage = "Invalid user name"
-        await mockUserAddFail(page, {error: responseErrMessage}, apiUserUrl)
+        userInfo.name = ""
+        const responseErrMessage = "Invalid user data"
         const registerPage = new RegistrationPage(page)
 
         await registerPage.registerUser(userInfo)
@@ -48,7 +46,7 @@ test.describe("Registration", () => {
     })
 
     test("an existing user should fail registration", async ({page, userInfo}) => {
-        await mockExistingUserAddFail(page, userInfo, apiUserUrl)
+        userInfo.name = "testuser"
         const registerPage = new RegistrationPage(page)
 
         await registerPage.registerUser(userInfo)
@@ -59,7 +57,7 @@ test.describe("Registration", () => {
     })
 
     test("should fail user adding because of a server error", async ({page, userInfo}) => {
-        await mockServerErrorUserAddFail(page, apiUserUrl)
+        userInfo.name = "testuser_500"
         const registerPage = new RegistrationPage(page)
 
         await registerPage.registerUser(userInfo)

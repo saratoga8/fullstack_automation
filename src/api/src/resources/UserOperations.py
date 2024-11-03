@@ -57,6 +57,7 @@ class UserOperations:
             update_error_response(e, HTTP_500, resp)
 
     async def on_post(self, req: Request, resp: Response):
+        resp.content_type = "application/json"
         try:
             user_info = UserInfoType(loads(await req.stream.read()))
             try:
